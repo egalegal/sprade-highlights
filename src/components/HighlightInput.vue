@@ -2,7 +2,7 @@
     <div class="highlightinput">
         <button class="big">Heim</button>
         <button class="big">Gast</button>
-        <input type="time" value="00:00" />
+        <input type="time" :value = "curTime" />
         <button class="big">Tor Heim</button>
         <button class="big">Tor Gast</button>
         <input type="text" placeholder="Bemerkungen" />
@@ -15,14 +15,18 @@
 export default {
     data() {
         return {
-        start: "Stop",
+        start: "Start",
         isActive: false,
+        curTime: "19:00"
         }
     },
     methods: {
         toggle() {
-            this.isActive =! this.isActive;
-            start = this.isActive ? "Start" : "Stop";
+            this.isActive = !this.isActive;
+            this.start = this.isActive ? "Stop" : "Start";
+        },
+        countdown() {
+            this.curTime =- 1;
         }
     }
 }
@@ -79,13 +83,13 @@ input[type="text"]  {
 }
 
 .active {
-    background-color: rgb(250, 93, 125);
+    background-color: #007EB2;
     animation: 1s infinite alternate ease-out breathing-color--dark;
 }
 
 @keyframes breathing-color--dark    {
     from {
-        background-color: rgb(250, 93, 125);
+        background-color: #007EB2;
         }
     to {
         background-color: #fff;

@@ -1,6 +1,8 @@
 
 import { createStore } from 'vuex'
 
+let timer
+
 export default createStore({
   state: {
     curTime: 1200,
@@ -38,12 +40,16 @@ export default createStore({
       const curClock = Minute + ":" + Second;
       commit('convertTime', curClock);
     },
+
     countDown ({commit, dispatch, state}) {
-      const Time = state.curTime-1;
-      commit('setcurTime', Time);
-      dispatch('convertTime');
-      requestAnimationFrame(this);
+      timer = setInterval(() => {
+        commit('setcurTime', state.curTime-1);
+        dispatch('convertTime');
+      }, 1000)
     },
 
+    stopCountDown: () => {
+      clearInterval(timer)
+    }
   }
 })

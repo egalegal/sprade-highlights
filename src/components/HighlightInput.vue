@@ -7,7 +7,8 @@
         <button class="big">Tor Gast</button>
         <input type="text" placeholder="Bemerkungen" />
         <button class="send">Eintragen</button>
-        <button class="big" @click="toggle(); countDown();" v-bind:class="{ active: state.isActive }">Timer {{state.start}}</button>
+        <button class="big" v-if="!state.isActive" @click="startCountDown()">Timer Start</button>
+        <button class="big active" v-else @click="stopCountDown()">Timer Stop</button>
     </section>
 </template>
 
@@ -18,21 +19,25 @@ import { computed, reactive } from "vue"
 
 export default {
     setup() {
-       
+
         const store = useStore();
         const state = reactive({
             start: "Start",
             isActive: false,
         });
         const curClock = computed(() => store.state.curClock);
-        
-        const countDown = () => store.dispatch('countDown'); 
 
-        const toggle = () => {
-            state.isActive = !state.isActive;
-            state.start = state.isActive ? "Stop" : "Start";
+        const startCountDown = () => {
+            state.isActive = true
+            store.dispatch('countDown')
         };
-        return { store, curClock, countDown, state, toggle }
+
+        const stopCountDown = () => {
+            state.isActive = false
+            store.dispatch('stopCountDown')
+        };
+
+        return { store, curClock, startCountDown, stopCountDown, state }
     },
 }
 

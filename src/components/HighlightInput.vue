@@ -22,8 +22,7 @@ export default {
 
         const store = useStore();
         const state = reactive({
-            start: "Start",
-            isActive: false,
+            isActive: false
         });
         const curClock = computed(() => store.state.curClock);
 

@@ -12,12 +12,10 @@ export default createStore({
     awayTeam: "",
     third: "",
   },
+
   mutations: {
     setcurTime(state, curTime){
       state.curTime = curTime;
-    },
-    convertTime(state, curClock){
-      state.curClock = curClock;
     },
     setDate(state, date){
       state.date = date;
@@ -32,24 +30,12 @@ export default createStore({
       state.third = third;
     },
   },
+
   actions: {
-    convertTime ({commit, state}) {
-      const Minute = Math.floor(state.curTime/60);
-      var Second = state.curTime % 60;
-      if(Second == 0) Second = Second + "0";
-      const curClock = Minute + ":" + Second;
-      commit('convertTime', curClock);
+    countDown ({commit, state}) {
+      timer = setInterval(() => commit('setcurTime', state.curTime - 1), 1000)
     },
 
-    countDown ({commit, dispatch, state}) {
-      timer = setInterval(() => {
-        commit('setcurTime', state.curTime-1);
-        dispatch('convertTime');
-      }, 1000)
-    },
-
-    stopCountDown: () => {
-      clearInterval(timer)
-    }
+    stopCountDown: () => clearInterval(timer)
   }
 })

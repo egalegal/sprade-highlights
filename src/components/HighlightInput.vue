@@ -2,7 +2,7 @@
     <section class="highlightinput">
         <button class="big">Heim</button>
         <button class="big">Gast</button>
-        <input type="time" :value = "curClock" />
+        <input type="time" :value="curClock" />
         <button class="big">Tor Heim</button>
         <button class="big">Tor Gast</button>
         <input type="text" placeholder="Bemerkungen" />
@@ -24,7 +24,10 @@ export default {
         const state = reactive({
             isActive: false
         });
-        const curClock = computed(() => store.state.curClock);
+
+        const secondsToMinutes = s => Math.floor(s / 60) + ':' + ('0' + Math.floor(s % 60)).slice(-2)
+
+        const curClock = computed(() => secondsToMinutes(store.state.curTime))
 
         const startCountDown = () => {
             state.isActive = true

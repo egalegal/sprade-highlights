@@ -6,7 +6,6 @@ let timer
 export default createStore({
   state: {
     curTime: 1200,
-    curClock: "20:00",
     date: "",
     homeTeam: "",
     awayTeam: "",

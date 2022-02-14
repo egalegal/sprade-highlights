@@ -19,8 +19,8 @@ import { computed, reactive } from "vue"
 
 export default {
     setup() {
+        const store = useStore()
 
-        const store = useStore();
         const state = reactive({
             isActive: false
         });
@@ -39,7 +39,12 @@ export default {
             store.dispatch('stopCountDown')
         };
 
-        return { store, curClock, startCountDown, stopCountDown, state }
+        return {
+            state,
+            curClock,
+            startCountDown,
+            stopCountDown
+        }
     },
 }
 

@@ -2,8 +2,8 @@
     <section class="match-setup" :class="{'match-setup--active': MatchSetupActive }">
         <img src="../assets/sprade.png"/>
         <h1>Highlights</h1>
-        <input name="MatchDate" type="date" v-model="MatchDate" />
-        <select name="hometeam" v-model="hometeam"> 
+        <input name="MatchDate" type="date" />
+        <select name="hometeam"> 
             <option>Heimteam</option>
             <option>Dresdner Eislöwen</option>
             <option>Ravensburg Towerstars</option>
@@ -20,7 +20,7 @@
             <option>Bayreuth Tigers</option>
             <option>Selber Wölfe</option>
         </select>
-        <select name="awayteam" v-model="awayteam">
+        <select name="awayteam">
             <option>Auswärtsteam</option>
             <option>Dresdner Eislöwen</option>
             <option>Ravensburg Towerstars</option>
@@ -37,17 +37,31 @@
             <option>Bayreuth Tigers</option>
             <option>Selber Wölfe</option>
         </select>
+        <select name="third">
+            <option>1. Drittel</option>
+            <option>2. Drittel</option>
+            <option>3. Drittel</option>
+            <option>Overtime</option>
+            <option>Penaltyschießen</option>
+            <option>Overtime I</option>
+            <option>overtime II</option>
+            <option>Overtime III</option>
+            <option>Overtime IV</option>
+            <option>Overtime V</option>
+        </select>
     </section>
 </template>
 
 <script>
+import { useStore } from "vuex"
+
 export default {
-    data() {
-        return {
-        MatchDate: Date,
-        hometeam: "Heimteam",
-        awayteam: "Auswärtsteam",
-        }
+    setup() {
+        const store = useStore();
+        store.state.date = "";
+        store.state.homeTeam = "";
+        store.state.awayTeam = "";
+        store.state.third = "";
     }
 }
 </script>
@@ -97,7 +111,7 @@ select {
     padding: 5px;
     text-align: center;
     margin: 5px;
-    font-size: 1.2em;
+    font-size: 1.2em !important;
     background-color: #fff;
 }
 .arrow  {

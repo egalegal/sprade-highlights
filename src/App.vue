@@ -10,13 +10,13 @@ import HighlightInput from './components/HighlightInput.vue'
 import HighlightOverview from './components/HighlightOverview.vue'
 
 export default {
+ 
   name: 'App',
   components: {
     MatchSetup,
     HighlightInput,
     HighlightOverview
   }
-  
 }
 </script>
 
@@ -30,6 +30,7 @@ export default {
     overflow-y: scroll;
     scroll-snap-type: y mandatory;
     max-height: 100vh;
+    font-size: 16px;
 }
 
 </style>

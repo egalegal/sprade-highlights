@@ -1,32 +1,41 @@
 <template>
-    <div class="highlightinput">
+    <section class="highlightinput">
         <button class="big">Heim</button>
         <button class="big">Gast</button>
-        <input type="time" :value = "curTime" />
+        <input type="time" :value = "curClock" />
+        <div>{{ curClock }}</div>
         <button class="big">Tor Heim</button>
         <button class="big">Tor Gast</button>
         <input type="text" placeholder="Bemerkungen" />
         <button class="send">Eintragen</button>
         <button class="big" @click="toggle" v-bind:class="{ active: isActive }">Timer {{start}}</button>
-    </div>
+    </section>
 </template>
 
 <script>
+import { useStore } from "vuex"
+// import { computed } from "vue"
+
 export default {
+    setup() {
+        const store = useStore();
+        curClock = store.state.curClock;
+
+        function countDown () {
+            store.dispatch("convertTime");
+        }
+        return { curClock, countDown }
+    },
     data() {
         return {
         start: "Start",
         isActive: false,
-        curTime: "19:00"
         }
     },
     methods: {
         toggle() {
             this.isActive = !this.isActive;
             this.start = this.isActive ? "Stop" : "Start";
-        },
-        countdown() {
-            this.curTime =- 1;
         }
     }
 }

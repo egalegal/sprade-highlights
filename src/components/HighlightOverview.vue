@@ -2,12 +2,21 @@
     <section class="pdf-output">
         <table class="highlight-overview">
             <thead>
-                <th>Drittel</th>
-                <th>Zeit</th>
-                <th>Heim</th>
-                <th>Auswärts</th>
-                <th>Tor</th>
-                <th>Bemerkungen</th>
+                <tr>
+                    <th colspan="6">Highlights</th>
+                </tr>
+                <tr>
+                    <th colspan="2">Datum: {{ store.state.date }}</th>
+                    <th colspan="4">Spiel: {{ store.state.homeTeam }} - {{ store.state.awayTeam }}</th>
+                </tr>
+                <tr>
+                    <th>Drittel</th>
+                    <th>Zeit</th>
+                    <th>Heim</th>
+                    <th>Auswärts</th>
+                    <th>Tor</th>
+                    <th>Bemerkungen</th>
+                </tr>
             </thead>
             <tr>
                 <td>1</td>
@@ -57,8 +66,15 @@
 </template>
 
 <script>
-export default {
+import { useStore } from "vuex"
 
+export default {
+    setup() {
+       
+        const store = useStore();
+
+        return { store }
+    }
 }
 </script>
 

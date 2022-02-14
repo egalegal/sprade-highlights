@@ -2,8 +2,8 @@
     <section class="match-setup" :class="{'match-setup--active': MatchSetupActive }">
         <img src="../assets/sprade.png"/>
         <h1>Highlights</h1>
-        <input name="MatchDate" type="date" />
-        <select name="hometeam"> 
+        <input name="MatchDate" type="date" @change="setDate($event)"/>
+        <select name="hometeam" @change="setHomeTeam($event)"> 
             <option>Heimteam</option>
             <option>Dresdner Eislöwen</option>
             <option>Ravensburg Towerstars</option>
@@ -20,7 +20,7 @@
             <option>Bayreuth Tigers</option>
             <option>Selber Wölfe</option>
         </select>
-        <select name="awayteam">
+        <select name="awayteam" @change="setAwayTeam($event)">
             <option>Auswärtsteam</option>
             <option>Dresdner Eislöwen</option>
             <option>Ravensburg Towerstars</option>
@@ -37,7 +37,8 @@
             <option>Bayreuth Tigers</option>
             <option>Selber Wölfe</option>
         </select>
-        <select name="third">
+        <select name="third" @change="setThird($event)">
+            <option>Drittel</option>
             <option>1. Drittel</option>
             <option>2. Drittel</option>
             <option>3. Drittel</option>
@@ -58,10 +59,11 @@ import { useStore } from "vuex"
 export default {
     setup() {
         const store = useStore();
-        store.state.date = "";
-        store.state.homeTeam = "";
-        store.state.awayTeam = "";
-        store.state.third = "";
+        const setDate = (event) => store.commit("setDate", event.target.value);
+        const setHomeTeam = (event) => store.commit("setHomeTeam", event.target.value);
+        const setAwayTeam = (event) => store.commit("setAwayTeam", event.target.value);
+        const setThird = (event) => store.commit("setThird", event.target.value);
+        return { setDate, store, setHomeTeam, setAwayTeam, setThird }
     }
 }
 </script>

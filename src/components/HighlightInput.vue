@@ -3,42 +3,39 @@
         <button class="big">Heim</button>
         <button class="big">Gast</button>
         <input type="time" :value = "curClock" />
-        <div>{{ curClock }}</div>
         <button class="big">Tor Heim</button>
         <button class="big">Tor Gast</button>
         <input type="text" placeholder="Bemerkungen" />
         <button class="send">Eintragen</button>
-        <button class="big" @click="toggle" v-bind:class="{ active: isActive }">Timer {{start}}</button>
+        <button class="big" @click="toggle(); countDown();" v-bind:class="{ active: state.isActive }">Timer {{state.start}}</button>
     </section>
 </template>
 
 <script>
+/* eslint-disable */
 import { useStore } from "vuex"
-// import { computed } from "vue"
+import { computed, reactive } from "vue"
 
 export default {
     setup() {
+       
         const store = useStore();
-        curClock = store.state.curClock;
+        const state = reactive({
+            start: "Start",
+            isActive: false,
+        });
+        const curClock = computed(() => store.state.curClock);
+        
+        const countDown = () => store.dispatch('countDown'); 
 
-        function countDown () {
-            store.dispatch("convertTime");
-        }
-        return { curClock, countDown }
+        const toggle = () => {
+            state.isActive = !state.isActive;
+            state.start = state.isActive ? "Stop" : "Start";
+        };
+        return { store, curClock, countDown, state, toggle }
     },
-    data() {
-        return {
-        start: "Start",
-        isActive: false,
-        }
-    },
-    methods: {
-        toggle() {
-            this.isActive = !this.isActive;
-            this.start = this.isActive ? "Stop" : "Start";
-        }
-    }
 }
+
 </script>
 
 <style scoped>

@@ -6,16 +6,30 @@ let timer
 export default createStore({
   state: {
     curTime: 1200,
+    curClock: "",
     date: "",
     homeTeam: "",
     awayTeam: "",
     third: "",
     isActive: false,
+    homeGoals: 0,
+    awayGoals: 0,
+    highlights: [{
+      id: 0,
+      third: "",
+      time: "",
+      team: "",
+      goals: "",
+      chance: "",
+    }]
   },
 
   mutations: {
     setcurTime(state, curTime){
       state.curTime = curTime;
+    },
+    setcurClock(state, curClock){
+      state.curClock = curClock;
     },
     setDate(state, date){
       state.date = date;
@@ -29,6 +43,9 @@ export default createStore({
     setThird(state, third){
       state.third = third;
     },
+    pushHighlights(state, data){
+      state.highlights.push(data);
+    }
   },
 
   actions: {
@@ -41,12 +58,25 @@ export default createStore({
         )
     },
 
-    stopCountDown: () => clearInterval(timer)
+    stopCountDown: () => clearInterval(timer),
+
+    highlightAdd: ({commit, getters, state}, getData) => {
+      const highlightLength = Object.keys(state.highlights).length-1;
+      
+      var data = [{
+        id: highlightLength, 
+        third: state.third, 
+        time: state.curClock, 
+        team: getData.team, 
+        goals: getters['goals'], 
+        chance: getData.chance,
+      }];
+      commit('pushHighlights', data);
+      console.log("Highlight added", data);
+    }
   },
 
-  watch: {
-    curTime(state) {
-      console.log("Timer stopped" + state.curTime)
-    }
+  getters: {
+    goals: (state) => { return state.homeGoals + ":" + state.awayGoals}
   }
 })

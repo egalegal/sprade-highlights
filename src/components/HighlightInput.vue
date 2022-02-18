@@ -1,12 +1,18 @@
 <template>
     <section class="highlightinput">
-        <button class="big">Heim</button>
-        <button class="big">Gast</button>
+        <div class="radiobuttons">
+            <input type="radio" id="smallchance" name="chance" value="+" checked><label for="smallchance">+</label>
+            <input type="radio" id="midchance" name="chance" value="++"><label for="midchance">++</label>
+            <input type="radio" id="bigchance" name="chance" value="+++"><label for="bigchance">+++</label>
+        </div>
+        
+        <button class="big" @click="highlightHome()">Heim</button>
+        <button class="big" @click="highlightAway()">Gast</button>
         <input type="time" :value="curClock" @blur="setCurTime()" name="test" />
-        <button class="big">Tor Heim</button>
-        <button class="big">Tor Gast</button>
-        <input type="text" placeholder="Bemerkungen" />
-        <button class="send">Eintragen</button>
+        <button class="big" @click="goalHome()">Tor Heim</button>
+        <button class="big" @click="goalAway()">Tor Gast</button>
+        <!-- <input type="text" placeholder="Bemerkungen" /> -->
+        <!-- <button class="send">Eintragen</button> -->
         <button class="big" v-if="!store.state.isActive" @click="startCountDown()">Timer Start</button>
         <button class="big active" v-else @click="stopCountDown()">Timer Stop</button>
     </section>
@@ -22,15 +28,16 @@ export default {
         const store = useStore()
 
         const secondsToMinutes = (s) => {
+            
             if(Math.floor(s / 60) < 10) {
                 s = '0'+Math.floor(s / 60) + ':' + ('0' + Math.floor(s % 60)).slice(-2);
             } 
             else {s = Math.floor(s / 60)+ ':' + ('0' + Math.floor(s % 60)).slice(-2)}
+            store.commit('setcurClock', s);
             return s;
         }
 
         const curClock = computed(() => secondsToMinutes(store.state.curTime))
-        
 
         const setCurTime = () => { //converts time input into seconds and commits to store
             var inputTime = document.querySelector("input[name=test]").value;
@@ -42,12 +49,29 @@ export default {
         const startCountDown = () => {
             store.state.isActive = true
             store.dispatch('countDown')
-        };
+        }
 
         const stopCountDown = () => {
             store.state.isActive = false
             store.dispatch('stopCountDown')
-        };
+        }
+
+        const highlightHome = () => {
+            store.dispatch('highlightAdd', {team: "Home"})
+        }
+        const highlightAway = () => {
+            store.dispatch('highlightAdd', {team: "Away"})
+        }
+        const goalHome = () => {
+            stopCountDown();
+            store.state.homeGoals++;
+            store.dispatch('highlightAdd', {team: "Home"})
+        }
+        const goalAway = () => {
+            stopCountDown();
+            store.state.awayGoals++;
+            store.dispatch('highlightAdd', {team: "Away"})
+        }
 
         return {
             store,
@@ -55,6 +79,9 @@ export default {
             startCountDown,
             stopCountDown,
             setCurTime,
+            highlightHome,
+            highlightAway,
+            goalHome,
         }
     },
 }
@@ -73,7 +100,7 @@ export default {
     scroll-snap-align: start;
 }
 
-button  {
+button, .radiobuttons label  {
     font-family: "Open Sans";
     border-radius: 5px !important;
     border: 1px solid #007EB2;
@@ -124,4 +151,26 @@ input[type="text"]  {
         background-color: #fff;
         }
 }
+
+.radiobuttons   {
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+    width: 90vw;
+}
+
+input[type="radio"] {
+    opacity: 0;
+    position: fixed;
+    width: 0;
+}
+
+.radiobuttons label {
+    display: flex;
+    width: 33%;
+    height: 7vh;
+    align-items: center;
+    justify-content: center;
+}
+
 </style>

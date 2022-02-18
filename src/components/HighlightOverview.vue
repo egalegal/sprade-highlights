@@ -18,45 +18,13 @@
                     <th>Bemerkungen</th>
                 </tr>
             </thead>
-            <tr>
-                <td>1</td>
-                <td>5:30</td>
-                <td>X</td>
-                <td></td>
-                <td></td>
-                <td>Nichts</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>7:30</td>
-                <td></td>
-                <td></td>
-                <td>1:0</td>
-                <td>Rundqvist</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>02:30</td>
-                <td>X</td>
-                <td></td>
-                <td></td>
-                <td>Nichts</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>22:30</td>
-                <td></td>
-                <td>X</td>
-                <td></td>
-                <td>Nichts</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>12:30</td>
-                <td>X</td>
-                <td></td>
-                <td></td>
-                <td></td>
+            <tr v-for="item in store.state.highlights" :key="item.id">
+                <td>{{ item.third }}</td>
+                <td>{{ item.time }}</td>
+                <td v-if="item.team == 'Home'">X</td><td v-else></td>
+                <td v-if="item.team == 'Away'">X</td><td v-else></td>
+                <td v-if="item.goals">{{ item.goals }}</td>
+                <td>{{ item.chance}}</td>
             </tr>
         </table>
     </section>

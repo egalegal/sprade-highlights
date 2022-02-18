@@ -62,7 +62,10 @@ export default {
         const setDate = (event) => store.commit("setDate", event.target.value);
         const setHomeTeam = (event) => store.commit("setHomeTeam", event.target.value);
         const setAwayTeam = (event) => store.commit("setAwayTeam", event.target.value);
-        const setThird = (event) => store.commit("setThird", event.target.value);
+        const setThird = (event) => {
+            store.commit("setThird", event.target.value);
+            store.commit("setcurTime", 1200);
+        }
         return { setDate, store, setHomeTeam, setAwayTeam, setThird }
     }
 }

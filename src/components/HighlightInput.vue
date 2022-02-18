@@ -2,12 +2,12 @@
     <section class="highlightinput">
         <button class="big">Heim</button>
         <button class="big">Gast</button>
-        <input type="time" :value="curClock" />
+        <input type="time" :value="curClock" @blur="setCurTime()" name="test" />
         <button class="big">Tor Heim</button>
         <button class="big">Tor Gast</button>
         <input type="text" placeholder="Bemerkungen" />
         <button class="send">Eintragen</button>
-        <button class="big" v-if="!state.isActive" @click="startCountDown()">Timer Start</button>
+        <button class="big" v-if="!store.state.isActive" @click="startCountDown()">Timer Start</button>
         <button class="big active" v-else @click="stopCountDown()">Timer Stop</button>
     </section>
 </template>
@@ -15,35 +15,46 @@
 <script>
 /* eslint-disable */
 import { useStore } from "vuex"
-import { computed, reactive } from "vue"
+import { computed } from "vue"
 
 export default {
     setup() {
         const store = useStore()
 
-        const state = reactive({
-            isActive: false
-        });
-
-        const secondsToMinutes = s => Math.floor(s / 60) + ':' + ('0' + Math.floor(s % 60)).slice(-2)
+        const secondsToMinutes = (s) => {
+            if(Math.floor(s / 60) < 10) {
+                s = '0'+Math.floor(s / 60) + ':' + ('0' + Math.floor(s % 60)).slice(-2);
+            } 
+            else {s = Math.floor(s / 60)+ ':' + ('0' + Math.floor(s % 60)).slice(-2)}
+            return s;
+        }
 
         const curClock = computed(() => secondsToMinutes(store.state.curTime))
+        
+
+        const setCurTime = () => { //converts time input into seconds and commits to store
+            var inputTime = document.querySelector("input[name=test]").value;
+            var MinToSec = inputTime.split(":");
+            var curTime = parseInt(MinToSec[0]*60) + parseInt(MinToSec[1]);
+            store.commit('setcurTime', curTime);
+        }
 
         const startCountDown = () => {
-            state.isActive = true
+            store.state.isActive = true
             store.dispatch('countDown')
         };
 
         const stopCountDown = () => {
-            state.isActive = false
+            store.state.isActive = false
             store.dispatch('stopCountDown')
         };
 
         return {
-            state,
+            store,
             curClock,
             startCountDown,
-            stopCountDown
+            stopCountDown,
+            setCurTime,
         }
     },
 }

@@ -10,6 +10,7 @@ export default createStore({
     homeTeam: "",
     awayTeam: "",
     third: "",
+    isActive: false,
   },
 
   mutations: {
@@ -31,10 +32,21 @@ export default createStore({
   },
 
   actions: {
-    countDown ({commit, state}) {
-      timer = setInterval(() => commit('setcurTime', state.curTime - 1), 1000)
+    countDown: ({ commit, dispatch, state}) => {
+      timer = setInterval(
+        () => {
+          if(state.curTime >= 1) commit('setcurTime', state.curTime - 1)
+          else{dispatch('stopCountDown'); state.isActive = false;}
+        }, 1000
+        )
     },
 
     stopCountDown: () => clearInterval(timer)
+  },
+
+  watch: {
+    curTime(state) {
+      console.log("Timer stopped" + state.curTime)
+    }
   }
 })

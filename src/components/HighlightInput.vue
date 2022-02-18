@@ -5,7 +5,7 @@
             <input type="radio" id="midchance" name="chance" value="++"><label for="midchance">++</label>
             <input type="radio" id="bigchance" name="chance" value="+++"><label for="bigchance">+++</label>
         </div>
-        
+        <div></div>
         <button class="big" @click="highlightHome()">Heim</button>
         <button class="big" @click="highlightAway()">Gast</button>
         <input type="time" :value="curClock" @blur="setCurTime()" name="test" />
@@ -13,7 +13,7 @@
         <button class="big" @click="goalAway()">Tor Gast</button>
         <!-- <input type="text" placeholder="Bemerkungen" /> -->
         <!-- <button class="send">Eintragen</button> -->
-        <button class="big" v-if="!store.state.isActive" @click="startCountDown()">Timer Start</button>
+        <button class="big send" v-if="!store.state.isActive" @click="startCountDown()">Timer Start</button>
         <button class="big active" v-else @click="stopCountDown()">Timer Stop</button>
     </section>
 </template>
@@ -57,20 +57,20 @@ export default {
         }
 
         const highlightHome = () => {
-            store.dispatch('highlightAdd', {team: "Home"})
+            store.dispatch('highlightAdd', {team: "Home", chance: document.querySelector('input[name=chance]:checked').value})
         }
         const highlightAway = () => {
-            store.dispatch('highlightAdd', {team: "Away"})
+            store.dispatch('highlightAdd', {team: "Away", chance: document.querySelector('input[name=chance]:checked').value})
         }
         const goalHome = () => {
             stopCountDown();
             store.state.homeGoals++;
-            store.dispatch('highlightAdd', {team: "Home"})
+            store.dispatch('highlightAdd', {team: ""})
         }
         const goalAway = () => {
             stopCountDown();
             store.state.awayGoals++;
-            store.dispatch('highlightAdd', {team: "Away"})
+            store.dispatch('highlightAdd', {team: ""})
         }
 
         return {
@@ -169,9 +169,13 @@ input[type="radio"] {
 .radiobuttons label {
     display: flex;
     width: 33%;
-    height: 7vh;
+    height: 9vh;
     align-items: center;
     justify-content: center;
 }
 
+input[type="radio"]:checked + label  {
+    background-color: #007EB2;
+    color: #fff;
+}
 </style>

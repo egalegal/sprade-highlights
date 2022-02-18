@@ -14,14 +14,7 @@ export default createStore({
     isActive: false,
     homeGoals: 0,
     awayGoals: 0,
-    highlights: [{
-      id: 0,
-      third: "",
-      time: "",
-      team: "",
-      goals: "",
-      chance: "",
-    }]
+    highlights: [],
   },
 
   mutations: {
@@ -61,22 +54,23 @@ export default createStore({
     stopCountDown: () => clearInterval(timer),
 
     highlightAdd: ({commit, getters, state}, getData) => {
-      const highlightLength = Object.keys(state.highlights).length-1;
+      const highlightLength = state.highlights.length + 1
       
-      var data = [{
+      var data = {
         id: highlightLength, 
         third: state.third, 
         time: state.curClock, 
         team: getData.team, 
         goals: getters['goals'], 
         chance: getData.chance,
-      }];
+      };
       commit('pushHighlights', data);
       console.log("Highlight added", data);
     }
   },
 
   getters: {
-    goals: (state) => { return state.homeGoals + ":" + state.awayGoals}
+    goals: state => state.homeGoals + ":" + state.awayGoals,
+    highlights: state => state.highlights,
   }
 })

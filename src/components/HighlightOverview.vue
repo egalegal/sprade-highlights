@@ -18,7 +18,7 @@
                     <th>Bemerkungen</th>
                 </tr>
             </thead>
-            <tr v-for="item in highlights" :key="item.id">
+            <tr v-for="(item, idx) in highlights" :key="idx">
                 <td>{{ item.third }}</td>
                 <td>{{ item.time }}</td>
                 <td v-if="item.team == 'Home'">X</td><td v-else></td>
@@ -42,7 +42,7 @@ export default {
        
         const store = useStore();
 
-        const highlights = computed(() => { return store.state.highlights })
+        const highlights = computed(() => store.getters.highlights)
         return { store, highlights }
     }
 }

@@ -18,7 +18,7 @@
                     <th>Bemerkungen</th>
                 </tr>
             </thead>
-            <tr v-for="item in store.state.highlights" :key="item.id">
+            <tr v-for="item in highlights" :key="item.id">
                 <td>{{ item.third }}</td>
                 <td>{{ item.time }}</td>
                 <td v-if="item.team == 'Home'">X</td><td v-else></td>
@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import { computed } from '@vue/runtime-core';
 import { useStore } from "vuex"
 
 export default {
@@ -41,7 +42,8 @@ export default {
        
         const store = useStore();
 
-        return { store }
+        const highlights = computed(() => { return store.state.highlights })
+        return { store, highlights }
     }
 }
 </script>

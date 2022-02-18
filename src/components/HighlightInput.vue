@@ -82,6 +82,7 @@ export default {
             highlightHome,
             highlightAway,
             goalHome,
+            goalAway,
         }
     },
 }

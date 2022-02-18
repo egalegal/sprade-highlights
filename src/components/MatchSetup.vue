@@ -1,5 +1,5 @@
 !<template>
-    <section class="match-setup" :class="{'match-setup--active': MatchSetupActive }">
+    <section class="match-setup">
         <img src="../assets/sprade.png"/>
         <h1>Highlights</h1>
         <input name="MatchDate" type="date" @change="setDate($event)"/>

@@ -31,6 +31,18 @@ export default {
     scroll-snap-type: y mandatory;
     max-height: 100vh;
     font-size: 16px;
+    float: none;
 }
 
+@media print {
+  .match-setup {
+    display: none !important;
+  }
+  .highlightinput {
+    display: none !important;
+  }
+  #app  {
+    overflow-y: visible !important;
+  }
+}
 </style>

@@ -62,11 +62,14 @@ export default {
         const setDate = (event) => store.commit("setDate", event.target.value);
         const setHomeTeam = (event) => store.commit("setHomeTeam", event.target.value);
         const setAwayTeam = (event) => store.commit("setAwayTeam", event.target.value);
+        const titleEl = document.querySelector('head title');
         const setThird = (event) => {
             store.commit("setThird", event.target.value);
             store.commit("setcurTime", 1200);
+            titleEl.textContent = store.state.date + '-' + store.state.homeTeam + '-' + store.state.awayTeam;
         }
-        return { setDate, store, setHomeTeam, setAwayTeam, setThird }
+
+        return { setDate, store, setHomeTeam, setAwayTeam, setThird, titleEl }
     }
 }
 </script>
@@ -85,7 +88,7 @@ export default {
 }
 
 img {
-    margin-top: 30%;
+    /* margin-top: 5em; */
     width: 50vw;
 }
 h1 {

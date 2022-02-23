@@ -28,9 +28,6 @@
             </tr>
         </table>
     </section>
-    <div class="bottom-sticker">
-        <button name="pdfoutput">PDF drucken</button>
-    </div>
 </template>
 
 <script>
@@ -58,16 +55,7 @@ export default {
     height: 100vh;
     scroll-snap-align: start;
 }
-.bottom-sticker {
-    position: relative;
-    bottom: 0px;
-}
-button  {
-    border: 1px solid darkgray;
-    width: 95vw;
-    border-radius: 5px;
-    padding: 1em;
-}
+
 .highlight-overview {
     width: 100%;
     font-size: 3vw;
@@ -82,4 +70,20 @@ td  {
     border: 1px solid black;
 }
 
+@media print {
+    @page {
+        size: A4;
+    }
+    .pdf-output {
+        width: 100vw;
+    }
+    .highlight-overview {
+        font-size: .8em !important;
+        width: 100vw;
+    }
+
+    td, th {
+        border: 2px solid black;
+    }
+}
 </style>

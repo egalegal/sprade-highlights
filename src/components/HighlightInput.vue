@@ -6,11 +6,11 @@
             <input type="radio" id="bigchance" name="chance" value="+++"><label for="bigchance">+++</label>
         </div>
         <div></div>
-        <button class="big" @click="highlightHome()">Heim</button>
-        <button class="big" @click="highlightAway()">Gast</button>
+        <button class="big blink" @click="highlightHome()">Heim</button>
+        <button class="big blink" @click="highlightAway()">Gast</button>
         <input type="time" :value="curClock" @blur="setCurTime()" name="test" />
-        <button class="big" @click="goalHome()">Tor Heim</button>
-        <button class="big" @click="goalAway()">Tor Gast</button>
+        <button class="big blink" @click="goalHome()">Tor Heim</button>
+        <button class="big blink" @click="goalAway()">Tor Gast</button>
         <!-- <input type="text" placeholder="Bemerkungen" /> -->
         <!-- <button class="send">Eintragen</button> -->
         <button class="big send" v-if="!store.state.isActive" @click="startCountDown()">Timer Start</button>
@@ -56,8 +56,8 @@ export default {
             store.dispatch('stopCountDown')
         }
 
-        const highlightHome = () => {
-            store.dispatch('highlightAdd', {team: "Home", chance: document.querySelector('input[name=chance]:checked').value})
+        const highlightHome = (event) => {
+            store.dispatch('highlightAdd', {team: "Home", chance: document.querySelector('input[name=chance]:checked').value});
         }
         const highlightAway = () => {
             store.dispatch('highlightAdd', {team: "Away", chance: document.querySelector('input[name=chance]:checked').value})
@@ -112,6 +112,19 @@ button, .radiobuttons label  {
     background-color: #fff;
     cursor: pointer;
 }
+
+@media(hover: none) and (any-pointer: coarse){
+    button.blink:hover, button.blink:active {
+        animation: 1s ease-out breathing-color--dark;
+    }
+}
+
+@media(hover: hover) and (pointer: fine){
+    button.blink:focus    {
+        animation: 1s ease-out breathing-color--dark;
+    }
+}
+
 
 .big {
     width: 90vw;
